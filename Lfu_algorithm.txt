@@ -1,0 +1,72 @@
+Here is a pseudocode-type algorithm for the Least Frequently Used (LFU) page replacement algorithm, based on the program you provided:
+
+### **Pseudocode for LFU Page Replacement Algorithm**
+
+1. **Initialize variables:**
+   - `n` ← number of pages
+   - `page[]` ← array to store page reference string
+   - `frameno` ← number of frames
+   - `frame[]` ← initialize array of size `frameno` to -1
+   - `count1[]` ← initialize array of size `frameno` to 0 (to store frequency counts)
+   - `move` ← 0 (index for the next frame to fill)
+   - `count` ← 0 (number of page faults)
+
+2. **Input the number of pages**  
+   Read `n`
+
+3. **Input the page reference string**  
+   For `i` from 0 to `n - 1`, read `page[i]`
+
+4. **Input the number of frames**  
+   Read `frameno`
+
+5. **Initialize all frames to -1:**  
+   For `i` from 0 to `frameno - 1`, set `frame[i]` to -1
+
+6. **Iterate through each page reference:**
+   - For `i` from 0 to `n - 1`:  
+     - Print `page[i]`
+     - `flag` ← 0 (to check if page is found)
+   
+     - **Check if the page is already in a frame:**
+       - For `j` from 0 to `frameno - 1`:  
+         - If `page[i]` equals `frame[j]`:  
+           - `flag` ← 1  
+           - Increment `count1[j]` (frequency of the page)  
+           - Print "No replacement"  
+           - Break
+
+     - **If page is not found (`flag` is 0) and there is space in frames:**
+       - If `count < frameno`:  
+         - Set `frame[move]` ← `page[i]`  
+         - Set `count1[move]` ← 1  
+         - Increment `move` (circularly)  
+         - Increment `count`  
+         - Print the current frame status
+
+     - **If page is not found and no space is available:**
+       - Set `repindex` ← 0  
+       - Set `leastcount` ← `count1[0]`
+       - For `j` from 1 to `frameno - 1`:  
+         - If `count1[j] < leastcount`:  
+           - Set `repindex` ← `j`  
+           - Set `leastcount` ← `count1[j]`
+       - Replace the page:  
+         - Set `frame[repindex]` ← `page[i]`  
+         - Set `count1[repindex]` ← 1  
+         - Increment `count`  
+         - Print the current frame status
+
+7. **Calculate fault rate:**  
+   Set `rate` ← `count / n`
+
+8. **Print results:**  
+   Print the number of page faults (`count`)  
+   Print the fault rate (`rate`)
+
+### **Key Concepts:**
+- **LFU Replacement:** The algorithm tracks the frequency of each page in memory and replaces the least frequently used one when needed.
+- **Circular Replacement:** New pages are added using a circular index (`move`) until the frames are full.
+- **Page Fault:** Occurs when a page is not found in the current set of frames and needs replacement.
+
+This pseudocode provides a clear and structured representation of the LFU page replacement process.
