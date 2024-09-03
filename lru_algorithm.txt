@@ -1,0 +1,67 @@
+The code you provided implements the Least Recently Used (LRU) page replacement algorithm. Below is a pseudocode-type algorithm for the LRU page replacement:
+
+### **Pseudocode for LRU Page Replacement Algorithm**
+
+1. **Initialize variables:**
+   - `n` ← Number of pages
+   - `p[]` ← Array to store the reference string
+   - `f` ← Number of frames
+   - `q[]` ← Array to represent frames, initially empty
+   - `c` ← 0 (count of page faults)
+   - `k` ← 0 (index to insert new pages into frames)
+   - `c1` ← 0 (to check if a page is in the frame)
+   - `c2[]` ← Array to store counts for LRU page tracking
+   - `b[]` ← Array to copy counts for finding the least recently used page
+
+2. **Input the number of pages**  
+   Read `n`
+
+3. **Input the reference string**  
+   For `i` from 0 to `n-1`, read `p[i]`
+
+4. **Input the number of frames**  
+   Read `f`
+
+5. **Load the first page into the first frame**  
+   Set `q[k]` ← `p[k]`  
+   Print `q[k]`  
+   Increment `c` and `k`
+
+6. **Iterate through each page in the reference string:**
+   - For `i` from 1 to `n-1`:
+     - Set `c1` ← 0
+     - **Check if the current page is already in frames:**
+       - For `j` from 0 to `f-1`:
+         - If `p[i]` is not equal to `q[j]`, increment `c1`
+     - **If the page is not in any frame (`c1` equals `f`):**
+       - Increment `c` (page fault count)
+       - **If frames are not full (`k < f`):**
+         - Set `q[k]` ← `p[i]`
+         - Increment `k`
+         - Print the current state of frames `q[]`
+       - **If frames are full:**
+         - For each frame `r` from 0 to `f-1`:
+           - Set `c2[r]` ← 0
+           - **Find how recently each page was used:**
+             - For `j` from `i-1` down to 0:
+               - If `q[r]` is not equal to `p[j]`, increment `c2[r]`
+               - Else, break
+         - Copy `c2[]` into `b[]`
+         - **Sort `b[]` to find the frame with the highest value (`b[0]`):**
+           - For `r` from 0 to `f-1`:
+             - For `j` from `r` to `f-1`:
+               - If `b[r] < b[j]`, swap `b[r]` and `b[j]`
+         - **Replace the least recently used page:**
+           - For `r` from 0 to `f-1`:
+             - If `c2[r] == b[0]`, set `q[r]` ← `p[i]`
+             - Print the updated frame `q[r]`
+
+7. **Print the total number of page faults:**  
+   Print `c`
+
+### **Key Concepts:**
+- **LRU Replacement:** Replaces the page that has not been used for the longest time.
+- **Page Fault:** Occurs when a page is not found in the frames and must be loaded, possibly replacing another.
+- **Sorting and Replacement:** The algorithm finds the least recently used page by checking past references, replacing the page with the highest value in `b[]`. 
+
+This pseudocode outlines the step-by-step process used in the given C code, demonstrating how the LRU page replacement algorithm works.
